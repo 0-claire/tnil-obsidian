@@ -1,0 +1,64 @@
+@mixin sanitized {
+	margin: 0px !important;
+	padding: 0px !important;
+}
+
+@mixin tnil($style: 'Basic') {
+	font-family: 'Ithkuil' + $style !important;
+	font-style: normal !important;
+	font-weight: normal !important;
+	font-size: 45px !important;
+	background-color: var(--background-code);
+	color: var(--code-normal);
+}
+
+
+// Multi-line code blocks
+.tnil {
+	@include tnil();
+}
+
+.tnil-handwritten {
+	@include tnil($style: 'Flow');
+}
+
+@mixin inline-blocks {
+	padding-top: 9px !important;
+	padding-bottom: 9px !important;
+}
+
+// Inline code blocks
+:not(pre)>code:not([class*='language-']) {
+	&.tnil {
+		@include tnil();
+		@include inline-blocks();
+	}
+
+	&.tnil-handwritten {
+		@include tnil($style: 'Flow');
+		@include inline-blocks();
+	}
+}
+
+
+
+@mixin IthkuilFontFace($style: 'Basic') {
+	@font-face {
+		// font-family: 'Ithkuil' + $style;
+		src: url('./fonts/Ithkuil' + $style + '.ttf') format('truetype'), url('https://raw.githubusercontent.com/shankarsivarajan/Ithkuil' + $style + '/refs/heads/master/builds/IthkuilFlow.ttf') format('truetype');
+		@include tnil($style: $style)
+	}
+}
+
+@include IthkuilFontFace();
+@include IthkuilFontFace($style: 'Flow');
+
+// .internal-embed + .markdown-embed + .inline-embed {
+//   @include sanitized;
+// }
+
+// Disable padding on transcluded (embedded) links
+.inline-embed>.markdown-embed-content>.markdown-preview-view,
+.markdown-preview-sizer>div>ul>li {
+	@include sanitized;
+}
