@@ -44,8 +44,8 @@
 
 @mixin IthkuilFontFace($style: 'Basic') {
 	@font-face {
-		// font-family: 'Ithkuil' + $style;
-		src: url('./fonts/Ithkuil' + $style + '.ttf') format('truetype'), url('https://raw.githubusercontent.com/shankarsivarajan/Ithkuil' + $style + '/refs/heads/master/builds/IthkuilFlow.ttf') format('truetype');
+		font-family: 'Ithkuil' + $style;
+		src: url('./fonts/Ithkuil' + $style + '.ttf') format('truetype'), url('https://raw.githubusercontent.com/shankarsivarajan/Ithkuil' + $style + '/refs/heads/master/builds/Ithkuil' + $style + '.ttf') format('truetype');
 		@include tnil($style: $style)
 	}
 }
@@ -61,4 +61,39 @@
 .inline-embed>.markdown-embed-content>.markdown-preview-view,
 .markdown-preview-sizer>div>ul>li {
 	@include sanitized;
+}
+
+@mixin lexicon_item() {
+  margin: 10px;
+  border-radius: 5px;
+  padding: 5px;
+  // background-color: purple;
+  border-color: purple;
+  background-color: var(--background-code);
+  border-width: 5px;
+  border-style: solid;
+
+}
+// .root-display {}
+// .affix-display {}
+
+.root-display li {
+  @include lexicon_item();
+}
+.affix-display li {
+  @include lexicon_item();
+}
+
+@mixin tnil-highlight {
+  background-color: white;
+  color: black;
+  border-radius: 5px;
+  padding: 3px;
+}
+
+.root-display .consonant {
+  @include tnil-highlight();
+}
+.affix-display .consonant {
+  @include tnil-highlight();
 }

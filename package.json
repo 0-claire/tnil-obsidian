@@ -6,7 +6,9 @@
 	"type": "module",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
-		"build": "tsc -noEmit -skipLibCheck ; node esbuild.config.mjs production && npm run css",
+		"build": "tsc -noEmit -skipLibCheck ; node esbuild.config.mjs production && npm run css && npm run copy",
+		"release": "npm run build && zip tnil-obsidian.zip ./styles.css ./main.js ./Ithkuil*",
+		"copy": "cp -r styles.css main.js ./Ithkuil* ./src/fonts ~/Documents/Notes/Obsidian/OTV-M/.obsidian/plugins/tnil-obsidian-plugin",
 		"version": "node version-bump.mjs && git add manifest.json versions.json",
 		"lint": "eslint .",
 		"css": "npx sass ./src/styles.scss ./styles.css"
@@ -15,9 +17,10 @@
 	"license": "0-BSD",
 	"devDependencies": {
 		"@eslint/js": "9.30.1",
-		"@types/node": "^16.11.6",
+		"@types/jsdom": "^28.0.0",
+		"@types/node": "^16.18.126",
 		"esbuild": "0.25.5",
-		"esbuild-plugin-sass": "^1.0.1",
+		"esbuild-plugin-sass": "^0.7.0",
 		"eslint-plugin-obsidianmd": "0.1.9",
 		"globals": "14.0.0",
 		"jiti": "2.6.1",

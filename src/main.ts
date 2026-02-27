@@ -1,6 +1,27 @@
 import { Plugin, } from 'obsidian';
 import { parseToFontCompatibleString } from 'TNILBot/transform';
 import './styles.scss';
+import { search, render } from './search.js';
+
+
+
+export type SearchSettings = {
+				fields: SearchFields;
+				searchType: SearchType;
+			};
+
+export type SearchType = "lexicon" | "affixes" | "roots" | "morphology";
+
+export interface SearchFields {
+	refers: boolean;
+	consonant: boolean;
+	description: boolean;
+	name: boolean;
+	notes: boolean;
+}
+export type StandardMorpheme = {
+	[Property in keyof SearchFields as string]: string;
+}
 
 export default class TNILPlugin extends Plugin {
 
@@ -31,10 +52,88 @@ export default class TNILPlugin extends Plugin {
 				} else if (item.innerText?.startsWith('$tnil-raw-handwritten ')) {
 					item.className = item.className + ' tnil-handwritten';
 					item.innerText = item.innerText.replace(/^\$tnil-raw-handwritten /, '');
-				} else if (item.innerText?.startsWith('$tnil-search')) {
 				}
 			});
 		});
+
+
+
+		this.registerMarkdownCodeBlockProcessor("tnil-search", async (source, el, /*ctx*/) => {
+			const searchSettings: SearchSettings = {
+				fields: {
+					refers: false,
+					consonant: true,
+					description: false,
+					name: false,
+					notes: false,
+				},
+				searchType: "lexicon",
+			};
+
+			const searchDiv = el.createEl('div');
+			const searchInput = searchDiv.createEl('input');
+			const fieldsCheckBoxes = searchDiv.createDiv();
+
+			for (const field in searchSettings.fields) {
+				const div = fieldsCheckBoxes.createEl('span');
+				const input = div.createEl('input', { type: 'checkbox' });
+				input.checked = searchSettings.fields[field];
+
+				input.addEventListener('change', (ev: Event & { target: HTMLInputElement }) => {
+					searchSettings.fields[field] = ev.target.checked;
+				});
+
+				div.createEl('label', { text: field });
+				div.style.marginLeft = '5px';
+			}
+
+			const searchTypeSelect = searchDiv.createEl('select');
+			searchTypeSelect.innerHTML = ' \
+			<option value="lexicon">lexicon</option> \
+			<option value="roots">roots</option> \
+			<option value="affixes">affixes</option> \
+			<option value="morphology">morphology</option> \
+			';
+
+			searchTypeSelect.addEventListener('change', (ev) => {
+				searchSettings.searchType = (ev.target as HTMLInputElement).value as SearchType;
+			});
+
+			// regex checkbox
+			// ignore punctuation (non alphanumeric) checkbox
+
+			const contentdiv = el.createEl('div');
+
+
+			searchInput.addEventListener('change', (event) => {
+				if(event.target) {
+					const { roots, affixes } = search((event.target as unknown as {value: string}).value, searchSettings);
+					render(contentdiv, roots, affixes);
+				}
+			});
+
+			// contentdiv.innerText = source;
+			const options = [
+				"lexicon",
+				"affixes",
+				"roots",
+				"morphology",
+				"docs"
+			];
+			// const command = contentdiv.innerText.replace(/^\$tnil-search /, '').split(' ')[0];
+			// if (!options.includes(command)) {
+			// 	contentdiv.innerText = " --- Command not valid";
+			// } else {
+			// 	switch (command) {
+			// 		case "lexicon": {
+			// 			contentdiv.innerText = Object.keys(lexicon_json).join(', ');
+			// 			// generate output
+			// 		}
+			// 	}
+			// }
+		});
+		
+
 		this.registerMarkdownCodeBlockProcessor("tnil-raw", async (source, el, ctx) => {
 			const contentdiv = el.createEl('div');
 			contentdiv.innerText = source;
