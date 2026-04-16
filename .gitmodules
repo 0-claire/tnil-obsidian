@@ -1,0 +1,3 @@
+[submodule "TNILBot"]
+	path = TNILBot
+	url = ssh://gitea@gitea.gen2ship.lpc/percent-zero/TNILBot.git
