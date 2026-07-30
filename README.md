@@ -9,15 +9,23 @@ This is an [Obsidian](https://obsidian.md) plugin for rendering text in [TNIL](h
 
 *Screenshots coming soon*
 
-Inline: \`$tnil <text>\` or \`$tnil-handwritten <text>\`
+*Note: you will only see your rendered tnil in reading mode. Live preview is not currently supported*
+
+Inline: \``$tnil wattáu`\` or \``$tnil-handwritten wattáu`\`
+Inline code snippets (\`\`) will parse valid tnil words and then render them. Meanwhile code blocks (\`\`\`) accept a raw font string. For details on that, visit [the font repo](https://github.com/shankarsivarajan/IthkuilBasic/blob/master/documentation/character_mapping.pdf)
 
 Code blocks:
-\`\`\`$tnil
-<raw font string>
+
+\`\`\`tnil
+
+\t_t<a
+
 \`\`\`
 
-\`\`\`$tnil-handwritten
-<raw ffont string>
+\`\`\`tnil-handwritten
+
+\t_t<a
+
 \`\`\`
 
 # Build
