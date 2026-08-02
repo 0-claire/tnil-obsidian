@@ -1,13 +1,12 @@
-import { Plugin } from "obsidian";
-import { createRoot } from "react-dom/client";
-import { parseToFontCompatibleString } from "TNILBot/transform";
+import { Plugin, } from "obsidian";
+import { createRoot, } from "react-dom/client";
+import { parseToFontCompatibleString, } from "TNILBot/transform";
 import "./styles.scss";
-import {
-	RenderRoot, 
-	RenderAffix 
-} from "./search.js";
-import { LexiconSearch } from "./search.js";
-import { parse } from "path";
+// import { LexiconSearch } from "./search.js";
+import { TNILUI, } from "./ui.js";
+// import { parse } from "path";
+
+import { TNILUI, } from "./ui.js";
 
 
 export default class TNILPlugin extends Plugin {
@@ -20,13 +19,20 @@ export default class TNILPlugin extends Plugin {
 		worker.onmessage = (ev) => {
 			console.log("from worker received message:", ev.data);
 		};
+
 		worker.onerror = (x) => {
 			console.error("worker error:", x);
 		};
+
 		worker.postMessage("hi");
 		this.worker = worker;
 
 		this.registerMarkdownPostProcessor((element) => {
+			const {
+				RenderAffix,
+				RenderRoot,
+			} = new TNILUI(el);
+
 			const blocks = element.querySelectorAll("code");
 			blocks.forEach(async (item: HTMLElement) => {
 				const reactRoot = createRoot(item);
@@ -52,6 +58,7 @@ export default class TNILPlugin extends Plugin {
 					try {
 						if(textCallback)
 							item.innerText = await textCallback(plainTextWithoutCommand);
+
 						if(itemAndTextCallback)
 							await itemAndTextCallback(element, plainTextWithoutCommand);
 						else
@@ -59,6 +66,7 @@ export default class TNILPlugin extends Plugin {
 					} catch (error) {
 						item.innerText = " --- Error parsing text: " + (error as { message: string }).message;
 					}
+
 					return plainTextWithoutCommand;
 				};
 
@@ -86,6 +94,7 @@ export default class TNILPlugin extends Plugin {
 						item.innerText = " --- No root with consonant " + root + " found in lexicon";
 						return;
 					}
+
 					reactRoot.render(<RenderRoot root={rootData}/>);
 				} else if (item.innerText?.startsWith("$tnil-affix ")) {
 					item.className = item.className + " tnil-affix";
@@ -96,6 +105,7 @@ export default class TNILPlugin extends Plugin {
 						return;
 						
 					}
+
 					reactRoot.render(<RenderAffix affix={affixData}/>);
 					// await RenderAffix(item.innerText.replace(/^\$tnil-affix /, ''));
 				}
@@ -110,6 +120,9 @@ export default class TNILPlugin extends Plugin {
 
 
 		this.registerMarkdownCodeBlockProcessor("tnil-search", async (source, el /*ctx*/) => {
+
+			const { LexiconSearch, } = new TNILUI(el);
+
 			const reactRoot = createRoot(el);
 			reactRoot.render(<LexiconSearch/>);
 			searchInput.addEventListener("change", async (event) => {
