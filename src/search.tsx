@@ -2,9 +2,9 @@ import {
 	Lexicon, 
 	Root, 
 	StandardAffix, 
-	isStandardAffix
+	isStandardAffix,
 } from "./types.js";
-import lexicon_json from "./lexicon/lexicon_en.json" with { type: "json" };
+import lexicon_json from "./lexicon/lexicon_en.json" with { type: "json", };
 
 export type SearchSettings = {
 	fields: SearchFields;
@@ -53,6 +53,7 @@ export default class TNILJSONInterface {
 			if (affix.cs === cs)
 				return affix;
 		}
+
 		return null;
 	}
 
@@ -129,6 +130,7 @@ export default class TNILJSONInterface {
 						return true;
 				}
 			}
+
 			return false;
 		});
 
@@ -141,6 +143,7 @@ export default class TNILJSONInterface {
 				? morpheme[field].toLowerCase()
 				: morpheme[field];
 		}
+
 		if (isStandardAffix(morpheme)) {
 			return {
 				consonant: morpheme.cs,

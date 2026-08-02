@@ -6,12 +6,13 @@
 	"type": "module",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
-		"build": "tsc -noEmit -skipLibCheck ; node esbuild.config.mjs production && npm run css && npm run copy",
-		"release": "npm run build && zip tnil-obsidian.zip ./styles.css ./main.js ./Ithkuil*",
-		"copy": "cp -r styles.css main.js ./Ithkuil* ./src/fonts ~/Documents/Notes/Obsidian/OTV-M/.obsidian/plugins/tnil-obsidian-plugin",
+        "build": "npm ci",
+		"old-build": "just build",
+		"release": "npm run build && mkdir -p ./builds/latest/tnil-obsidian && cp ./styles.css ./main.js ./builds/latest/tnil-obsidian && zip ./builds/latest/tnil-obsidian.zip ./builds/latest/tnil-obsidian/{styles.css,main.js}",
+		"copy": "cp -r ./manifest.json ./builds/latest/* ~/Documents/Notes/Obsidian/OTV-M/.obsidian/plugins/tnil-obsidian-plugin",
 		"version": "node version-bump.mjs && git add manifest.json versions.json",
 		"lint": "eslint .",
-		"css": "npx sass ./src/styles.scss ./styles.css"
+		"css": "npx sass ./src/styles.scss ./builds/latest/styles.css"
 	},
 	"keywords": [],
 	"license": "0-BSD",

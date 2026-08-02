@@ -2,6 +2,7 @@ import esbuild from "esbuild";
 import process from "process";
 import { builtinModules } from 'node:module';
 import sassPlugin from "esbuild-plugin-sass";
+import workerPlugin from "@chialab/esbuild-plugin-worker";
 
 const banner =
 	`/*
@@ -19,7 +20,7 @@ const context = await esbuild.context({
 	loader: {
 		'.ttf': 'copy',
 	},
-	entryPoints: ["src/main.ts"],
+	entryPoints: ["./src/main.ts", "./src/worker.ts", "./src/fonts/IthkuilBasic.ttf", "./src/fonts/IthkuilFlow.ttf", ],
 	bundle: true,
 	external: [
 		"obsidian",
@@ -41,10 +42,11 @@ const context = await esbuild.context({
 	logLevel: "info",
 	sourcemap: prod ? false : "inline",
 	treeShaking: true,
-	outfile: "main.js",
+	outdir: "./builds/latest",
 	minify: prod,
 	plugins: [
-		sassPlugin()
+		sassPlugin(),
+		workerPlugin(),
 	]
 });
 
