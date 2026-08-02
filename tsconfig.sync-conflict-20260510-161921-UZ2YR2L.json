@@ -9,7 +9,7 @@
 		"allowJs": false,
 		"jsx": "react-jsx",
 		"noImplicitAny": true,
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
 		"resolveJsonModule": true,
 		"noImplicitReturns": true,
 		"strictBindCallApply": true,
