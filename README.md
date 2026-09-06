@@ -5,14 +5,16 @@ This is an [Obsidian](https://obsidian.md) plugin for rendering text in
 [IthkuilBasic](https://github.com/shankarsivarajan/IthkuilBasic) and
 [IthkuilFlow](https://github.com/shankarsivarajan/IthkuilFlow)
 
+
+<img width="1471" height="365" alt="image" src="https://github.com/user-attachments/assets/b6064652-e718-4f27-8d9c-48f40d6bf840" />
+
+<img width="1849" height="930" alt="image" src="https://github.com/user-attachments/assets/68b10850-465b-447c-9410-0f52153de88a" />
+
 # Install
 
-- Download from the releases page and extract into your vault's
-  `.obsidian/plugins` subfolder
+Download from the releases page and extract into your vault's `.obsidian/plugins` subfolder
 
 # Use
-
-_Screenshots coming soon_
 
 ## Rendering
 
@@ -24,26 +26,24 @@ currently supported_
 Inline: \``$tnil wattáu`\` or \``$tnil-handwritten wattáu`\` Inline code
 snippets (\`\`) will parse valid tnil words and then render them
 
+<img width="1157" height="286" alt="image" src="https://github.com/user-attachments/assets/50505136-1174-4c06-acf0-c1c30c9b7aee" />
+
+
 ### Code Blocks
 
 blocks (\`\`\`) accept a raw font string. For details on that, visit
 [the font repo](https://github.com/shankarsivarajan/IthkuilBasic/blob/master/documentation/character_mapping.pdf)
 
-\`\`\`tnil
 
-\t_t<a
+<img width="1219" height="506" alt="image" src="https://github.com/user-attachments/assets/455f0889-1fa6-4e3f-a3c4-ca9a4ac7f5bc" />
 
-\`\`\`
-
-\`\`\`tnil-handwritten
-
-\t_t<a
-
-\`\`\`
 
 ### Bugs
 
 ## Search
+
+<img width="1759" height="241" alt="image" src="https://github.com/user-attachments/assets/d64e8ad4-0dd7-4338-82c9-0b9be5a541a1" />
+
 
 | Search Field | Meaning                                                                         |
 | ------------ | ------------------------------------------------------------------------------- |
